@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UDIAMOND Fortune Card</title>
     
-    <!-- ส่วนเสริมสำหรับเวลาแชร์ลง Social (Line, Facebook) -->
     <meta property="og:title" content="UDIAMOND Fortune Card">
     <meta property="og:description" content="ค้นหาคำตอบจากพลังเพชรในตัวคุณ สุ่มการ์ดทำนายดวงชะตา">
-    <meta property="og:image" content="Fin LOGO Udiamond-w.png"> <!-- รูปเวลาแชร์จะใช้โลโก้ -->
+    <meta property="og:image" content="Fin LOGO Udiamond-w.png">
     <meta property="og:type" content="website">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -27,16 +26,12 @@
         .gold-border { border: 1px solid #d4af37; box-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
         
         .perspective-1000 { perspective: 1000px; }
-        
         .card-container { position: relative; }
-
         .card-inner {
             position: relative; width: 100%; height: 100%; text-align: center;
             transition: transform 0.8s; transform-style: preserve-3d;
         }
-        
         .card-container.flipped .card-inner { transform: rotateY(180deg); }
-        
         .card-front, .card-back {
             position: absolute; width: 100%; height: 100%;
             -webkit-backface-visibility: hidden; backface-visibility: hidden;
@@ -44,20 +39,11 @@
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             overflow: hidden;
         }
-        
         .card-front { background: linear-gradient(135deg, #0f3d32 0%, #061f1a 100%); border: 2px solid #d4af37; }
-        
-        .card-back { 
-            background-color: #0c2e26; 
-            transform: rotateY(180deg); 
-            border: 2px solid #d4af37; 
-            padding: 0;
-        }
-
+        .card-back { background-color: #0c2e26; transform: rotateY(180deg); border: 2px solid #d4af37; padding: 0; }
         .fade-in { animation: fadeIn 1s ease-in; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ปุ่มดูคำทำนายบนไพ่ */
         .toggle-text-btn {
             background: rgba(255, 255, 255, 0.9);
             color: #0c2e26;
@@ -76,22 +62,18 @@
 </head>
 <body class="flex flex-col items-center justify-start p-4 pt-10">
 
-    <!-- Header -->
     <header class="text-center mb-8 flex flex-col items-center w-full fade-in">
         <div class="mb-4 max-w-[250px]">
             <img src="Fin LOGO Udiamond-w.png" alt="Logo" class="w-full h-auto object-contain drop-shadow-lg"
                  onerror="this.style.display='none'; document.getElementById('logo-placeholder').style.display='block';">
-            
             <h1 id="logo-placeholder" class="text-3xl font-bold gold-text font-serif tracking-widest hidden">UDIAMOND</h1>
         </div>
         <p class="text-sm text-gray-300 font-light tracking-wide">ค้นหาคำตอบจากพลังเพชรในตัวคุณ</p>
     </header>
 
-    <!-- Card Area -->
     <div class="card-container perspective-1000 w-full max-w-sm h-[550px] mb-8 cursor-pointer group fade-in" id="cardContainer" onclick="drawCard()">
         <div class="card-inner w-full h-full shadow-2xl relative" id="cardInner">
             
-            <!-- หน้าปก -->
             <div class="card-front gold-border">
                 <div class="absolute inset-2 border border-[#d4af37] opacity-50 rounded-lg"></div>
                 <div class="absolute inset-4 border border-[#d4af37] opacity-30 rounded-lg"></div>
@@ -100,14 +82,10 @@
                 <p class="text-xs text-gray-400 mt-2">แตะเพื่อเปิดไพ่</p>
             </div>
 
-            <!-- หน้าไพ่ -->
             <div class="card-back relative">
-                
-                <!-- 1. ส่วนรูปภาพ -->
                 <div class="w-full h-full absolute inset-0 bg-[#0c2e26] flex items-center justify-center">
                     <img id="cardImage" src="" class="w-full h-full object-fill z-0 hidden">
                     
-                    <!-- Fallback -->
                     <div id="cardIconContainer" class="flex flex-col items-center justify-center p-6 text-center z-0 hidden w-full h-full bg-white">
                          <i id="cardIcon" class="fas fa-gem text-6xl text-[#d4af37] mb-4"></i>
                          <h2 id="cardTitleFallback" class="text-xl font-bold text-[#0c2e26] mb-2"></h2>
@@ -115,65 +93,161 @@
                     </div>
                 </div>
 
-                <!-- 2. ปุ่มเปิด/ปิดข้อความ -->
                 <div id="overlayControls" class="absolute bottom-4 right-4 z-20 hidden">
                     <div onclick="toggleText(event)" class="toggle-text-btn" title="ดูคำทำนาย">
                         <i class="fas fa-info"></i>
                     </div>
                 </div>
 
-                <!-- 3. แถบข้อความ -->
-                <div id="textOverlay" class="absolute bottom-0 left-0 w-full max-h-[40%] bg-white/95 p-4 text-center overflow-y-auto z-10 hidden rounded-t-xl shadow-lg transition-transform duration-300 translate-y-full">
-                    <h2 id="cardTitle" class="text-lg font-bold text-[#0c2e26] mb-1 font-serif">...</h2>
-                    <p id="cardPrediction" class="text-sm text-gray-800 leading-relaxed font-light">...</p>
-                    <button onclick="toggleText(event)" class="mt-2 text-xs text-gray-400 underline">ปิด</button>
+                <!-- Text Overlay on Card -->
+                <div id="textOverlay" class="absolute bottom-0 left-0 w-full max-h-[50%] bg-white/95 p-5 text-left overflow-y-auto z-10 hidden rounded-t-xl shadow-lg transition-transform duration-300 translate-y-full">
+                    <h2 id="cardTitle" class="text-lg font-bold text-[#0c2e26] mb-2 font-serif text-center">...</h2>
+                    <div class="space-y-2 text-xs md:text-sm text-gray-800 font-light">
+                        <p><span class="font-semibold text-[#b38728]">สิ่งที่ภาพบอก:</span> <span id="cardImageDesc"></span></p>
+                        <p><span class="font-semibold text-[#b38728]">ความหมาย:</span> <span id="cardMeaning"></span></p>
+                        <div class="bg-gray-100 p-2 rounded border-l-2 border-[#d4af37] mt-2">
+                            <p class="italic"><span class="font-bold text-[#0c2e26]">คำทำนาย:</span> <span id="cardPrediction"></span></p>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <button onclick="toggleText(event)" class="text-xs text-gray-400 underline">ปิดหน้าต่าง</button>
+                    </div>
                 </div>
 
             </div>
         </div>
     </div>
 
-    <!-- Controls -->
     <div class="flex gap-4 fade-in">
         <button onclick="resetCard()" class="px-8 py-2 rounded-full border border-[#d4af37] text-[#d4af37] hover:bg-[#d4af37] hover:text-[#0c2e26] transition-all duration-300 uppercase tracking-wider text-sm shadow-lg">
             สุ่มใหม่
         </button>
     </div>
 
-    <!-- Details Section -->
+    <!-- Details Section Below Card -->
     <div id="detailsSection" class="hidden max-w-2xl w-full mt-8 bg-[#061f1a] border border-[#d4af37] p-6 rounded-lg shadow-2xl relative mb-10 fade-in">
         <h3 id="detailTitle" class="text-xl font-bold text-[#d4af37] mb-4 text-center"></h3>
-        <div class="space-y-4 text-gray-300 text-sm md:text-base font-light">
+        <div class="space-y-4 text-gray-300 text-sm md:text-base font-light leading-relaxed">
             <p><span class="text-[#d4af37] font-semibold">สิ่งที่ภาพบอก:</span> <span id="detailImageDesc"></span></p>
             <p><span class="text-[#d4af37] font-semibold">ความหมาย:</span> <span id="detailMeaning"></span></p>
             <div class="bg-[#0f3d32] p-4 rounded border-l-4 border-[#d4af37]">
-                <p class="italic"><span class="font-bold">คำทำนาย:</span> <span id="detailPrediction"></span></p>
+                <p class="italic text-white"><span class="font-bold text-[#d4af37]">คำทำนาย:</span> <span id="detailPrediction"></span></p>
             </div>
         </div>
     </div>
 
     <script>
+        // ข้อมูลการ์ด 27 ใบ (ปรับฟอร์แมตตามที่ลูกค้าต้องการ)
         const cardsData = [
-            { id: 1, title: "เพชรแห่งคุณค่า", fileName: "card1.png", symbol: "เพชรและสายลม (Self-Worth)", meaning: "คุณมีค่าและแข็งแกร่งในตัวเองอยู่แล้ว", prediction: "หยุดเหนื่อยกับการพิสูจน์ตัวเองให้คนทั้งโลกยอมรับ", imageDesc: "เพชรที่มีค่าในตัวเอง ท่ามกลางสายลม" },
-            { id: 2, title: "จังหวะทองของคุณ", fileName: "card2.png", symbol: "ฟันเฟืองแห่งกาลเวลา", meaning: "ทุกอย่างกำลังหมุนมาบรรจบกันในจุดที่ลงตัวที่สุด", prediction: "ลงมือวันนี้ แม้ยังไม่สมบูรณ์ ดีกว่ารอให้พร้อม", imageDesc: "เพชรที่หมุนขับเคลื่อนไปพร้อมกับฟันเฟือง" },
-            { id: 3, title: "วินัยชนะอารมณ์", fileName: "card3.png", symbol: "ตาชั่งแห่งวินัย", meaning: "ความสำเร็จต้องการความสม่ำเสมอ ไม่ใช่อารมณ์", prediction: "วันที่ไม่อยากทำ คือวันที่สำคัญที่สุด", imageDesc: "ตาชั่งที่ฝั่งวินัยหนักกว่าอารมณ์" },
-            { id: 4, title: "การเกิดใหม่", fileName: "card4.png", symbol: "ผีเสื้อแห่งการเกิดใหม่", meaning: "สัญญาณของการเลื่อนระดับไปสู่เวอร์ชันที่ดีกว่า", prediction: "จงกล้าปฏิเสธสิ่งที่ไม่สอดคล้องกับตัวตนของคุณ", imageDesc: "เพชรแตกออกกลายเป็นผีเสื้อ" },
-            { id: 5, title: "คุณถูกจับตามอง", fileName: "card5.png", symbol: "ดวงตาเพชร", meaning: "คุณได้กลายเป็นแบบอย่างแล้ว", prediction: "ทำทุกอย่างให้สมศักดิ์ศรีตัวเอง แม้ไม่มีใครเห็น", imageDesc: "ดวงตาเปิดกว้างในรูปทรงเพชร" },
-            { id: 6, title: "เลือกเส้นทางเดียว", fileName: "card6.png", symbol: "มือที่ถือปมเชือก", meaning: "การทำหลายอย่างพร้อมกันทำให้พลังกระจาย", prediction: "โฟกัส 1 เป้าหมายหลัก แล้วทุ่มให้สุด", imageDesc: "เพชรตัดเชือกที่ยุ่งเหยิง" },
-            { id: 7, title: "ก้าวสุดท้าย", fileName: "card7.png", symbol: "บันไดสู่ความสำเร็จ", meaning: "ความเหนื่อยคือหลักฐานว่าคุณกำลังเดินขึ้นที่สูง", prediction: "อย่าหยุดตอนที่ความสำเร็จอยู่ใกล้ที่สุด", imageDesc: "บันไดสูงชันที่มีแสงสว่างปลายทาง" },
-            { id: 8, title: "ป้ายราคาที่คุณเขียนเอง", fileName: "card8.png", symbol: "เพชรบนหมอนกำมะหยี่", meaning: "การเงินจะขยับหากคุณกล้าตั้งราคาให้ตัวเอง", prediction: "อย่ากลัวคำว่าแพง คุณค่าของคุณสูงกว่าที่คิด", imageDesc: "มือคุณเองเขียนราคาบนป้ายเพชร" },
-            { id: 9, title: "ปล่อยสิ่งที่ไม่สำคัญ", fileName: "card9.png", symbol: "สมอแห่งอดีต", meaning: "การยึดติดคือภาระที่มองไม่เห็น", prediction: "ตัดใจจากคนหรือเรื่องที่ดึงพลังคุณลง", imageDesc: "สมอเรือคำว่า PAST กำลังขาดออก" },
-            { id: 10, title: "ความสำเร็จต้องแลก", fileName: "card10.png", symbol: "เมล็ดพันธุ์แห่งความเพียร", meaning: "ไม่มีเพชรเม็ดใดเกิดขึ้นโดยไม่ผ่านแรงกดดัน", prediction: "ยอมเหนื่อยวันนี้ เพื่ออิสระในวันข้างหน้า", imageDesc: "มือหย่อนเพชรลงดินเหมือนหว่านพืช" },
-            { id: 11, title: "ผู้นำที่ไม่เดินตาม", fileName: "card11.png", symbol: "บัลลังก์ของผู้ไม่เดินตาม", meaning: "คุณไม่ได้เกิดมาเพื่อเดินตามใคร", prediction: "กล้าคิดต่าง และรับผิดชอบชีวิตตัวเอง", imageDesc: "คุณนั่งบนบัลลังก์แยกจากฝูงแกะ" },
-            { id: 12, title: "เชื่อสัญชาตญาณ", fileName: "card12.png", symbol: "เสียงเพรียกจากภายใน", meaning: "คุณรู้อยู่แล้วว่าควรเลือกอะไร", prediction: "หยุดถามคนอื่น ฟังตัวเองให้มากขึ้น", imageDesc: "เพชรลอยเหนือน้ำสงบนิ่ง" },
-            { id: 13, title: "ระเบิดตัวตน", fileName: "card13.png", symbol: "การระเบิดของเพชร", meaning: "อย่าประเมินตัวเองต่ำ คุณเกิดมาเพื่อโดดเด่น", prediction: "กล้าแสดงจุดยืนอย่างชัดเจน", imageDesc: "เพชรระเบิดแสงท่ามกลางก้อนหิน" },
-            { id: 14, title: "ประตูแห่งโอกาส", fileName: "card14.png", symbol: "ประตูบานใหญ่", meaning: "โอกาสมาแล้ว แต่คุณต้องก้าวเข้าไปเอง", prediction: "ตอบรับโอกาส แม้จะยังไม่มั่นใจ 100%", imageDesc: "คนผลักประตูบานใหญ่" },
-            { id: 15, title: "สถาปนิกผู้สร้างตำนาน", fileName: "card15.png", symbol: "การก่ออิฐสร้างหอคอย", meaning: "วินัยจะพาคุณไปไกลกว่าแรงบันดาลใจ", prediction: "อย่ารอไฟ จงสร้างระบบ", imageDesc: "ก่ออิฐทีละก้อนด้วยวินัย" },
-            { id: 16, title: "ร่องรอยการเติบโต", fileName: "card16.png", symbol: "การเจียระไนเพชร", meaning: "คุณกำลังกลายเป็นเวอร์ชันที่ดีกว่า", prediction: "อย่าดูถูกก้าวเล็กๆ ของตัวเอง", imageDesc: "เครื่องมือจ่อที่ผิวเพชรเก็บรายละเอียด" },
-            { id: 17, title: "คุณพร้อมแล้ว", fileName: "card17.png", symbol: "เส้นทางสู่ชัยชนะ", meaning: "เลิกเตรียมตัว แล้วลุยได้แล้ว", prediction: "ไม่ต้องรอสัญญาณอื่นอีก เริ่มทันที", imageDesc: "ประตูเปิดกว้าง ทางเดินโรยเหรียญทอง" },
-            { id: 18, title: "เดิมพันครั้งสุดท้าย", fileName: "card18.png", symbol: "ทางเสี่ยง vs ปลอดภัย", meaning: "ความลังเลคืออุปสรรคเดียว", prediction: "เลือกทางที่ใจเต้นแรง (เสี่ยง) ภายใน 7 วัน", imageDesc: "ป้ายแยกทางซ้ายขวา" },
-            { id: 19, title: "คุณแข็งแกร่งพอ", fileName: "card19.png", symbol: "ภูเขาเพชร", meaning: "อุปสรรคนี้มีค่ามหาศาล", prediction: "ถามตัวเองว่าจะผ่านไปได้อย่างไร คุณเอาอยู่", imageDesc: "ภูเขาที่เป็นเพชรทั้งลูก" },
-            { id: 20, title: "ความกลัวหมดพลัง", fileName: "card20.png", symbol: "แสงสว่างไล่เงา", meaning: "คุณรู้ทันความกลัว มันจึงทำอะไรคุณไม่ได้", prediction: "ทำสิ่งที่กลัว 1 อย่าง แล้วคุณจะชนะ", imageDesc: "แสงสว่างจ้าไล่เงาความกลัว" }
+            { id: 1, title: "เพชรแห่งคุณค่า", fileName: "card1.png", 
+              imageDesc: "เพชรท่ามกลางสายลมที่พัดผ่าน", 
+              meaning: "คุณมีค่าในตัวเอง ไม่ว่าจะอยู่ที่ไหน คำวิจารณ์เป็นแค่ลมผ่าน", 
+              prediction: "หยุดเหนื่อยกับการพิสูจน์ตัวเองให้คนทั้งโลกยอมรับ ยืนหยัดอย่างสง่างาม" },
+            { id: 2, title: "จังหวะทองของคุณ", fileName: "card2.png", 
+              imageDesc: "เพชรที่หมุนขับเคลื่อนไปพร้อมกับฟันเฟืองนาฬิกา", 
+              meaning: "ทุกอย่างกำลังหมุนมาบรรจบในจุดที่ลงตัวที่สุด", 
+              prediction: "ลงมือวันนี้ แม้ยังไม่สมบูรณ์ ดีกว่ารอให้พร้อมแต่ไม่ได้เริ่ม" },
+            { id: 3, title: "วินัยชนะอารมณ์", fileName: "card3.png", 
+              imageDesc: "ตาชั่งที่ฝั่งวินัยหนักกว่าอารมณ์", 
+              meaning: "ความสำเร็จต้องการความสม่ำเสมอ ไม่ใช่อารมณ์", 
+              prediction: "วันที่ไม่อยากทำ คือวันที่สำคัญที่สุด" },
+            { id: 4, title: "การเกิดใหม่", fileName: "card4.png", 
+              imageDesc: "ก้อนเพชรแตกออกกลายเป็นผีเสื้อสยายปีก", 
+              meaning: "สัญญาณของการเลื่อนระดับไปสู่เวอร์ชันที่ดีกว่าเดิม", 
+              prediction: "จงกล้าปฏิเสธสิ่งที่ไม่สอดคล้องกับตัวตนของคุณ เพื่อให้ปีกได้กางออก" },
+            { id: 5, title: "คุณถูกจับตามอง", fileName: "card5.png", 
+              imageDesc: "ดวงตาเปิดกว้างในรูปทรงเพชร", 
+              meaning: "คุณได้กลายเป็นแบบอย่างแล้ว การกระทำมีผลมากกว่าที่คิด", 
+              prediction: "ทำทุกอย่างให้สมศักดิ์ศรีตัวเอง แม้ในวันที่ไม่มีใครเห็น" },
+            { id: 6, title: "เลือกเส้นทางเดียว", fileName: "card6.png", 
+              imageDesc: "เพชรตัดเชือกที่พันกันยุ่งเหยิงขาดออก", 
+              meaning: "การทำหลายอย่างพร้อมกันทำให้พลังกระจาย", 
+              prediction: "โฟกัส 1 เป้าหมายหลัก แล้วทุ่มให้สุด จะไม่มีอะไรขวางคุณได้" },
+            { id: 7, title: "ก้าวสุดท้าย", fileName: "card7.png", 
+              imageDesc: "บันไดขรุขระสูงชันที่มีแสงสว่างอยู่ปลายทาง", 
+              meaning: "ความเหนื่อยตอนนี้คือหลักฐานว่าคุณกำลังเดินขึ้นที่สูง", 
+              prediction: "ห้ามหยุดเด็ดขาด! อย่าหยุดตอนที่ความสำเร็จอยู่ใกล้แค่เอื้อม" },
+            { id: 8, title: "ป้ายราคาที่คุณเขียนเอง", fileName: "card8.png", 
+              imageDesc: "มือที่กำลังเขียนราคาบนป้ายเพชรด้วยตัวเอง", 
+              meaning: "การเงินจะขยับขึ้น หากคุณกล้าตั้งราคาให้ตัวเอง", 
+              prediction: "คุณค่าของคุณสูงกว่าที่คิด กล้ายกระดับตัวเอง และอย่ากลัวคำว่าแพง" },
+            { id: 9, title: "ปล่อยสิ่งที่ไม่สำคัญ", fileName: "card9.png", 
+              imageDesc: "สมอเรือคำว่าอดีต (PAST) กำลังขาดสะบั้น", 
+              meaning: "การยึดติดคือภาระที่มองไม่เห็น", 
+              prediction: "ตัดใจจากคนหรือเรื่องที่ดึงพลังคุณลง แล้วคุณจะบินสูงขึ้น" },
+            { id: 10, title: "ความสำเร็จต้องแลก", fileName: "card10.png", 
+              imageDesc: "มือหย่อนเพชรลงดินเหมือนกำลังหว่านเมล็ดพืช", 
+              meaning: "ไม่มีเพชรเม็ดใดเกิดขึ้นโดยไม่ผ่านแรงกดดัน", 
+              prediction: "ยอมเหนื่อยแลกความสบายในวันนี้ เพื่ออิสระในวันข้างหน้า" },
+            { id: 11, title: "ผู้นำที่ไม่เดินตาม", fileName: "card11.png", 
+              imageDesc: "คุณนั่งบนบัลลังก์แยกตัวออกมาจากฝูงแกะ", 
+              meaning: "ความแปลกแยกคือคุณสมบัติของผู้นำ คุณไม่ได้เกิดมาเพื่อเดินตามใคร", 
+              prediction: "กล้าคิดต่าง และรับผิดชอบต่อการตัดสินใจของตัวเอง" },
+            { id: 12, title: "เชื่อสัญชาตญาณ", fileName: "card12.png", 
+              imageDesc: "เพชรลอยเหนือน้ำ สะท้อนเงาอย่างสงบนิ่ง", 
+              meaning: "คุณรู้อยู่แล้วว่าควรเลือกอะไร", 
+              prediction: "หยุดถามคนอื่นมากเกินไป สัญชาตญาณของคุณไม่เคยโกหก ฟังตัวเองให้มากขึ้น" },
+            { id: 13, title: "ระเบิดตัวตน", fileName: "card13.png", 
+              imageDesc: "เพชรระเบิดแสงจ้าออกมาท่ามกลางก้อนหินมืดมัว", 
+              meaning: "คุณถูกสร้างมาให้โดดเด่น ไม่ใช่เพื่อกลมกลืน", 
+              prediction: "อย่าประเมินตัวเองต่ำ กล้าแสดงจุดแข็งและจุดยืนของตัวเองอย่างชัดเจน" },
+            { id: 14, title: "ประตูแห่งโอกาส", fileName: "card14.png", 
+              imageDesc: "คนกำลังผลักประตูบานใหญ่ที่เปิดออกรับแสงสว่าง", 
+              meaning: "โอกาสมาแล้ว แต่ประตูไม่เปิดเอง คุณต้องก้าวเข้าไป", 
+              prediction: "ตอบรับโอกาส แม้จะยังไม่มั่นใจ 100% ลุยเลย" },
+            { id: 15, title: "สถาปนิกผู้สร้างตำนาน", fileName: "card15.png", 
+              imageDesc: "การก่ออิฐทีละก้อนอย่างเป็นระบบด้วยเครื่องมือและวินัย", 
+              meaning: "แรงบันดาลใจมาแล้วก็ไป แต่วินัยจะพาคุณชนะ", 
+              prediction: "อย่ารอไฟ จงสร้างระบบ วางตารางเวลาและทำตามนั้นเพื่อเป้าหมาย" },
+            { id: 16, title: "ร่องรอยการเติบโต", fileName: "card16.png", 
+              imageDesc: "เครื่องมือจ่อที่ผิวเพชรเพื่อเก็บรายละเอียด เกิดประกายไฟ", 
+              meaning: "คุณกำลังกลายเป็นเวอร์ชันที่ดีกว่า แม้จะยังไม่เห็นภาพชัดเจน", 
+              prediction: "อย่าดูถูกก้าวเล็กๆ ของตัวเอง ทุกความพยายามคือการเจียระไน" },
+            { id: 17, title: "คุณพร้อมแล้ว", fileName: "card17.png", 
+              imageDesc: "ประตูหินเปิดกว้าง ทางเดินโรยด้วยเหรียญทอง", 
+              meaning: "เลิกเรียนรู้ เลิกเตรียมตัว คุณมีทุกอย่างครบแล้ว", 
+              prediction: "ไม่ต้องรอสัญญาณอื่นอีก เริ่มทันที และรับผลลัพธ์ด้วยความภาคภูมิใจ" },
+            { id: 18, title: "เดิมพันครั้งสุดท้าย", fileName: "card18.png", 
+              imageDesc: "ป้ายบอกทางแยก ซ้ายเสี่ยง ขวาปลอดภัย", 
+              meaning: "ความลังเลคือสิ่งเดียวที่ขวางคุณอยู่ ถึงเวลาตัดสินใจเด็ดขาด", 
+              prediction: "เลือกให้ชัดภายใน 7 วัน เลือกทางที่ทำให้ใจเต้นแรง ชีวิตจะเปลี่ยนไปตลอดกาล" },
+            { id: 19, title: "คุณแข็งแกร่งพอ", fileName: "card19.png", 
+              imageDesc: "ภูเขาที่เป็นเพชรทั้งลูก สูงและชัน", 
+              meaning: "สิ่งที่คุณเจอไม่ได้มาเพื่อทำลาย แต่มาเพื่อยกระดับคุณ", 
+              prediction: "หยุดถามว่าไหวไหม แล้วถามว่าจะผ่านให้ชนะได้อย่างไร คุณเอาอยู่" },
+            { id: 20, title: "ความกลัวหมดพลัง", fileName: "card20.png", 
+              imageDesc: "รัศมีเพชรสว่างจ้าจนไล่เงาและความกลัวออกไป", 
+              meaning: "คุณเริ่มเข้าใจตัวเองมากขึ้น ความกลัวจึงควบคุมคุณไม่ได้อีกต่อไป", 
+              prediction: "ทำสิ่งที่คุณหนีมาตลอด 1 อย่าง แล้วคุณจะเห็นการเปลี่ยนแปลงทันที" },
+            // ไพ่ใหม่ 7 ใบ
+            { id: 21, title: "คุณกำลังแบกมากเกินไป", fileName: "card21.png", 
+              imageDesc: "คนหลายคนกำลังดึงรั้งเพชรไว้จากทุกทิศทาง", 
+              meaning: "เพชรจะแข็งแกร่งได้ ต้องถูกกดอย่างสมดุล ไม่ใช่แบกทุกอย่างไว้คนเดียว", 
+              prediction: "วางสิ่งที่หนักลงบ้าง การกล้าขอความช่วยเหลือคือความเข้มแข็งรูปแบบหนึ่ง" },
+            { id: 22, title: "ความชัดเจนคือพลัง", fileName: "card22.png", 
+              imageDesc: "ดาบเพชรเปล่งประกายตัดผ่านโซ่ตรวนและขวากหนาม", 
+              meaning: "ความลังเลทำให้จิตใจหม่นหมอง โฟกัสให้ถูกจุดเพื่อสร้างความชัดเจน", 
+              prediction: "เลือกให้ชัดเพียง 1 ทาง แล้วตัดสิ่งรบกวนรอบข้างออกอย่างเด็ดขาด" },
+            { id: 23, title: "คุณไม่ได้มาผิดเวลา", fileName: "card23.png", 
+              imageDesc: "นาฬิกาทรายที่หยดผลึกเพชรลงมาสะสมจนกลายเป็นเพชรเม็ดงาม", 
+              meaning: "เชื่อมั่นในเส้นทางและจังหวะเวลาของตัวเอง", 
+              prediction: "เดินหน้าต่อด้วยความมั่นใจ ไม่ต้องเร่งรีบ และไม่ต้องเปรียบเทียบกับใคร" },
+            { id: 24, title: "คำตอบจะมาจากความสงบ", fileName: "card24.png", 
+              imageDesc: "เพชรสะท้อนเงาเหนือน้ำที่นิ่งสงบ ท่ามกลางดอกบัวและแสงจันทร์", 
+              meaning: "ความกระวนกระวายทำให้มองไม่เห็นทางออก ความนิ่งจะนำพาทางสว่างมาให้", 
+              prediction: "จงอยู่นิ่งๆ สงบจิตใจ ถอยออกมาพัก แล้วคำตอบที่คุณตามหาจะปรากฏขึ้นเอง" },
+            { id: 25, title: "ความเปลี่ยนแปลงกำลังมาเยือน", fileName: "card25.png", 
+              imageDesc: "แสงเพชรเจิดจ้ากำลังเปิดประตูบานใหม่ในวังวน", 
+              meaning: "เพชรจะถูกเจียระไนแรงที่สุด ก่อนที่มันจะเปล่งประกายงดงาม", 
+              prediction: "เตรียมใจให้พร้อม ไม่ต่อต้านการเปลี่ยนแปลง เพราะนี่คือประตูสู่โอกาสใหม่ของคุณ" },
+            { id: 26, title: "บางความสัมพันธ์ต้องถูกเจียระไน", fileName: "card26.png", 
+              imageDesc: "มือถือค้อนและสิ่วสกัดก้อนหิน เพื่อเผยให้เห็นเพชรที่ซ่อนอยู่ด้านใน", 
+              meaning: "ความจริงใจและเนื้อแท้ของคน จะชัดเจนที่สุดเมื่อต้องผ่านแรงกดดัน", 
+              prediction: "สื่อสารอย่างตรงไปตรงมา อย่ากลัวความจริง เพราะความจริงจะทำให้ใจคุณเบาขึ้น" },
+            { id: 27, title: "คุณยังใช้พลังไม่เต็มที่", fileName: "card27.png", 
+              imageDesc: "ค้อนกำลังทุบก้อนหินบนทั่งตีเหล็ก เพื่อขัดเกลาและดึงเพชรออกมา", 
+              meaning: "เพชรดิบจะมีมูลค่าสูงสุด ก็ต่อเมื่อมันถูกขัดเกลาและเจียระไนอย่างถูกวิธี", 
+              prediction: "จงลงทุนกับการพัฒนาตัวเอง เพิ่มพูนทักษะที่จะพาคุณก้าวขึ้นสู่อีกระดับ" }
         ];
 
         let isFlipped = false;
@@ -201,10 +275,15 @@
             const card = cardsData[randomIndex];
 
             setTimeout(() => {
+                // อัปเดตข้อความใน Card Overlay
                 document.getElementById('cardTitle').innerText = card.title;
+                document.getElementById('cardImageDesc').innerText = card.imageDesc;
+                document.getElementById('cardMeaning').innerText = card.meaning;
                 document.getElementById('cardPrediction').innerText = card.prediction;
+                
                 document.getElementById('cardTitleFallback').innerText = card.title;
                 
+                // อัปเดตข้อความใน Section ด้านล่าง
                 document.getElementById('detailTitle').innerText = card.title;
                 document.getElementById('detailImageDesc').innerText = card.imageDesc;
                 document.getElementById('detailMeaning').innerText = card.meaning;
@@ -259,5 +338,4 @@
         }
     </script>
 </body>
-
 </html>
